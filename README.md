@@ -5,6 +5,6 @@ Change active hours of Windows 10 as starting from the current hour to 18 hours 
 
 Example of the working principle:
 <br>
-Assuming current time is 18:07
+Assuming current datetime is 20200730 18:07
 <br>
-Active Hours will be 18 (Start Hour) - 12 (End Hour)
+Active Hours will be 20200730 18:00 (Start Hour) - 20200731 12:00 (End Hour)
