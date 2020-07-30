@@ -1,0 +1,8 @@
+Dependencies
+------------
+Windows10ActiveHoursChanger.cmd depends on Show-BalloonTip.ps1 (In same folder)
+Windows10ActiveHoursChanger_Single.cmd depends nothing
+
+* Both cmd scripts need to be in the same folder with Windows10ActiveHoursChanger.ico to show the icon. 
+  But, it is not mandatory. If the .ico file is not found, icon of the Powershell is shown.
+* Running as Administrator is not needed.
