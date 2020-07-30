@@ -2,7 +2,7 @@
 SETLOCAL EnableExtensions  EnableDelayedExpansion 
 
 SET "balloon_script_name=Show-BalloonTip.ps1"
-SET "balloon_icon=Windows10ActiveHoursChanger.ico"
+SET "balloon_icon=Windows10ActiveHoursChanger_compressed.ico"
 SET "balloon_title=Smart Active Hours Changer for Windows"
 SET "balloon_icon_type=Info"
 SET /A balloon_timeout=3000
