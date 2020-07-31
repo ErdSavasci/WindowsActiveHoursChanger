@@ -1,7 +1,6 @@
 @ECHO OFF
 SETLOCAL EnableExtensions  EnableDelayedExpansion 
 
-SET "architecture=64 bit"
 SET "balloon_script_name=Show-BalloonTip.ps1"
 SET "balloon_icon=Windows10ActiveHoursChanger_compressed.ico"
 SET "balloon_title=Active Hours Changer for Windows"
@@ -11,16 +10,7 @@ SET /A balloon_icon_exists_in_curr_dir=0
 SET "balloon_icon_location="
 SET "current_path=%~dp0"
 
-reg query "HKLM\System\CurrentControlSet\Control\Session Manager\Environment" /v PROCESSOR_ARCHITECTURE | find "ARCH" | FINDSTR /L "86" > NUL
-IF %ERRORLEVEL% EQU 0 (
-	SET "architecture=32 bit"
-) ELSE (
-	SET "architecture=64 bit"
-)
-
-ECHO Architecture: %architecture%
 ECHO Current Path: %current_path%
-
 ECHO Initializing the script.. Please wait..
 
 For /f "tokens=1-2 delims=/:" %%a in ('time /t') do (set current_hour=%%a)
@@ -32,13 +22,12 @@ reg query "HKLM\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings"
 
 IF EXIST "%current_path%%balloon_icon%" (
 	SET /A balloon_icon_exists_in_curr_dir=1
-	CALL SET "current_path=%current_path: =` %"
 	SET "balloon_icon_location=%current_path%%balloon_icon%"
 ) ELSE (
 	SET /A balloon_icon_exists_in_curr_dir=0
 )
-
 ECHO Balloon Icon Location: %balloon_icon_location%
+CALL SET "current_path=%current_path: =` %"
 
 IF %ERRORLEVEL% EQU 1 (
 	SET "exception_message=No Folder Found (Path: HKLM\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings).. Quitting.."

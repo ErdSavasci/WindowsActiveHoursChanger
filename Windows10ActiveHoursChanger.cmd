@@ -3,13 +3,14 @@ SETLOCAL EnableExtensions  EnableDelayedExpansion
 
 SET "balloon_script_name=Show-BalloonTip.ps1"
 SET "balloon_icon=Windows10ActiveHoursChanger_compressed.ico"
-SET "balloon_title=Smart Active Hours Changer for Windows"
+SET "balloon_title=Active Hours Changer for Windows"
 SET "balloon_icon_type=Info"
 SET /A balloon_timeout=3000
+SET /A balloon_icon_exists_in_curr_dir=0
+SET "balloon_icon_location="
 SET "current_path=%~dp0"
 
 ECHO Current Path: %current_path%
-
 ECHO Initializing the script.. Please wait..
 
 For /f "tokens=1-2 delims=/:" %%a in ('time /t') do (set current_hour=%%a)
@@ -19,14 +20,21 @@ ECHO Current Hour: %current_hour%
 reg query "HKLM\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" 
 ::/e >nul 2>nul
 
+IF EXIST "%current_path%%balloon_icon%" (
+	SET /A balloon_icon_exists_in_curr_dir=1
+	SET "balloon_icon_location=%current_path%%balloon_icon%"
+) ELSE (
+	SET /A balloon_icon_exists_in_curr_dir=0
+)
+ECHO Balloon Icon Location: %balloon_icon_location%
 CALL SET "current_path=%current_path: =` %"
 
 IF %ERRORLEVEL% EQU 1 (
-SET "exception_message=No Folder Found (Path: HKLM\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings).. Quitting.."
-ECHO %exception_message%
-::Displaying exception as balloon in Action Center
-powershell.exe -noprofile -executionpolicy bypass -Command "& {%current_path%%balloon_script_name% -Text '%exception_message%' -Title '%balloon_title%' -IconType '%balloon_icon_type%' -Timeout %balloon_timeout% -Icon %current_path%%balloon_icon%}"
-TIMEOUT 2 > NUL
+	SET "exception_message=No Folder Found (Path: HKLM\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings).. Quitting.."
+	ECHO %exception_message%
+	::Displaying exception as balloon in Action Center
+	powershell.exe -noprofile -executionpolicy bypass -Command "& {%current_path%%balloon_script_name% -Text '%exception_message%' -Title '%balloon_title%' -IconType '%balloon_icon_type%' -Timeout %balloon_timeout% -Icon '%balloon_icon_location%'}"
+	TIMEOUT 2 > NUL
 )
 
 SET /A set_hour_start=%current_hour%
@@ -73,7 +81,7 @@ IF %ERRORLEVEL% EQU 0 (
 )
 
 ::Displaying update message as balloon in Action Center
-powershell.exe -noprofile -executionpolicy bypass -Command "& {%current_path%%balloon_script_name% -Text '%balloon_text%' -Title '%balloon_title%' -IconType '%balloon_icon_type%' -Timeout %balloon_timeout% -Icon %current_path%%balloon_icon%}"
+powershell.exe -noprofile -executionpolicy bypass -Command "& {%current_path%%balloon_script_name% -Text '%balloon_text%' -Title '%balloon_title%' -IconType '%balloon_icon_type%' -Timeout %balloon_timeout% -Icon '%balloon_icon_location%'}"
 
 ::DEBUG Purpose
 ::ECHO powershell.exe -noprofile -executionpolicy bypass -Command "& {%MYFILES%\%balloon_script_name% -Text '%balloon_text%' -Title '%balloon_title%' -Icon '%balloon_icon_type%' -Timeout %balloon_timeout%}"
