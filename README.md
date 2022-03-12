@@ -7,4 +7,4 @@ Example of the working principle:
 <br>
 Assuming current datetime is 2020-07-30 18:07
 <br>
-Active Hours will be 2020-07-30 18:07 (Start Hour) - 2020-07-31 12:00 (End Hour)
+Active Hours will be 2020-07-30 18:07 (Start Hour) - 2020-07-31 12:07 (End Hour)
